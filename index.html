@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Nueva Version Final - Adjuntar Pg Final</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Tradelab Fx Academy - PortfalioFinder</title>
+  <!--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" type="image/png"
+    href="https://d2saw6je89goi1.cloudfront.net/uploads/digital_asset/file/864633/Untitled_design__39_.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/static/css/portfolio/style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+
+<div class="container">
+    <a href="https://tradelabfxacademy.com/">
+      <img src="https://content.app-sources.com/s/48584485437857318/uploads/Archivos_pdf_y_excel_DM/LOGO_FONDO_NEGRO-0402474.png" alt="Tradelab Fx Academy Logo" class="logo" width="800" height="500">
+</a>
+<h1 class="title">Portfolio<span class="highlightG">Finder By <a href="https://tradelabfxacademy.com/" class="underline">Tradelab Fx Academy <span style="color:#00FF00;">(</span><a href="https://www.team-pow.com/" class="underline" style="color:#00FF00; text-decoration: underline;">POW</a><span style="color:#00FF00;">)</span></a></span>
+
+
+</h1>
+    <div class="button-container">
+      <button id="popupButton3" class="inversebutton">Set<span>Editor</span></button>
+      <button id="popupButton" class="inversebutton">DATE FIND</button>
+      <button id="soloDDanal" type="button" class="inversebutton">STANDALONE ANALYSIS</button>
+     
+      </a>
+    </div>
+  </div>
+
+
+  <form id="inputForm">
+    <div class="heading">
+      <h3>Set<span style="color: #00FF00;">Finder </span>AJUSTES</h3>
+    </div>
+    <div id="mt5settings">
+      <div class="row">
+      <div>
+        <label for="start">Fecha de Inicio*:</label>
+        <input type="date" id="start" name="start">
+      </div>
+      <div>
+        <label for="end">Fecha de Fin*:</label>
+        <input type="date" id="end" name="end">
+      </div>
+      <div>
+        <label for="forward">Fecha de Forward:</label>
+        <input type="date" id="forward" name="forward">
+      </div>
+      </div>
+      <div class="row">
+      <div>
+        <label for="balance">Balance Inicial:</label>
+        <input type="number" id="balance" name="balance" min="0" value="100000">
+      </div><div>
+      <label for="targetDD"> Drawdown Objetivo $:<div class="tooltip">
+          <i class="fas fa-question-circle"></i>
+
+          <span class="tooltiptext">El Drawdown Objetivo se usa para calcular el Multiplicador de Lotaje, lo que permite estimar el beneficio que se obtendría si se ajustase el tamaño del lote para que el drawdown en todas las pruebas coincida con el Drawdown Objetivo. Así se puede determinar cuál configuración generó más beneficio de forma objetiva. Si cambias este valor, haz clic en "Cargar" para actualizar la tabla. </span>
+        </div></label>
+      <input type="number" id="targetDD" min="0" value="1000">
+        </div>
+      </div>
+    </div>
+
+    <div class="sectionNotes" style="margin-left: 5px;">
+      *La fecha de inicio y la fecha de finalización se completarán automáticamente cuando se seleccionen los archivos a continuación. Si es necesario, se pueden cambiar después de haber seleccionado los archivos.
+    </div>
+
+    <div class="heading" hidden>
+      <h3>Set<span style="color: #00FF00;">Finder </span>TABLA DE RESULTADOS</h3>
+    </div>
+    <div class="sectionNotes" style="margin-left: 5px;" hidden>
+      Use these filters to filter the data from your XML files. Changing the filters will update the table in real-time
+      (except Target Drawdown - click Upload to refresh the table if you change this value),
+      but it will also remove any CSV graph data files uploaded to rows - so be sure to set the filters to your needs
+      before uploading any CSV graph data files. If you get an Error popup, see <a href="guide.html#errors"
+        target="_blank" style="cursor:pointer;color:white;text-decoration:underline;">Help Guide section 6 <i
+          class="fas fa-external-link-alt"></i></a>
+      <p></p>All number inputs will persist if you leave this page, so you can set your own default values. You may
+      reset the defaults <span id="reset" style="cursor:pointer;color:white;text-decoration:underline;">here</span>.</p>
+
+    </div>
+    <div id="resultsfilters" hidden>
+      <label for="profitMatchLower">>> ProfitMatch% <div class="tooltip">
+          <i class="fas fa-question-circle"></i>
+
+          <span class="tooltiptext">ProfitMatch% is a measure of how proportional the Back Profit is compared to the
+            Forward Profit when adjusted for dates. Eg: if a set generates profit of $200 in 2 weeks back test and $100
+            in 1 week forward test,
+            this is a 100% ProfitMatch.</span>
+        </div> between (Lower Limit):</label>
+      <input type="number" id="profitMatchLower" name="profitMatchLower" min="0" value="0">
+      and
+      <label for="profitMatchUpper">(Upper Limit):</label>
+      <input type="number" id="profitMatchUpper" name="profitMatchUpper" min="0" value="999"><br>
+
+      <label for="backRecoveryFactor">>> Back Recovery Factor:</label>
+      <input type="number" id="backRecoveryFactor" name="backRecoveryFactor" min="0" value="0.01">
+
+      <label for="forwardRecoveryFactor">Forward Recovery Factor:</label>
+      <input type="number" id="forwardRecoveryFactor" name="forwardRecoveryFactor" min="0" value="0.01"><br>
+
+      <label for="backResult">>> Back Result:</label>
+      <input type="number" id="backResult" name="backResult" min="0" value="0">
+
+      <label for="forwardResult">Forward Result:</label>
+      <input type="number" id="forwardResult" name="forwardResult" min="0" value="0"><br>
+      <br>
+    </div>
+    <div id="processbuttons">
+      <div id="buttonbox">
+        <div class="buttonclass">
+          <div class="tooltip">
+            <label for="files" class="file-upload-button">
+              SELECCIONAR ARCHIVOS
+              <input type="file" id="files" name="files[]" accept=".xml" multiple hidden>
+            </label><span class="tooltiptext">Selecciona aquí tus archivos de resultados de optimización XML. Se pueden seleccionar varias optimizaciones juntas. Los archivos XML deben tener el mismo nombre, con un sufijo aceptado en los archivos XML de Forward o no se leerán correctamente (por ejemplo: "GBPUSD_Trend.xml" y "GBPUSD_Trend.forward.xml").
+              
+            </span>
+          </div>
+
+        </div>
+
+        <div class="buttonclass">
+          <div class="tooltip"><button id="upload" type="button">CARGAR</button><span class="tooltiptext">Al hacer clic en este botón, se transferirán los datos de los archivos seleccionados a la tabla de abajo. Solo los datos que coincidan con los filtros indicados anteriormente aparecerán en la tabla.</span></div>
+        </div>
+        <button id="xml-setPopup" class="inversebutton">xml>set<span>Converter</span></button>
+      </div>
+      <div>
+        <div id="loading"></div>
+        <div id="loadingSpinner" style="display:none;">
+          <i class="fa fa-spinner fa-spin" style="font-size:24px;color:#00ff00"></i>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </form>
+  <br>
+
+  <div class="heading">
+    <h3>Set<span style="color: #00FF00;">Finder </span>TABLA DE RESULTADOS</h3>
+  </div>
+  <div id="noDataMessage" style="display: none;">
+  </div>
+  <div id="resultsTable">
+    <table id="myTable"></table>
+  </div>
+
+
+  <div id="analysisOverlay" class="overlay">
+
+
+
+    <div style="margin-inline: 15px;">
+      <h2>Set<span style="color: #00FF00;">Finder</span> PORTFOLIO ANALYSIS</h2>
+      <!--<small><i>Based on Brycey's "Portfolio & DD Peaks"
+          sheet.</i></small>
+      <div style="margin-inline: 1em;">
+        <p><i>Upload CSV files [to rows of the Results Table on main page] from the MT5 Graph (run the single test with
+            forward OFF > right-click the Graph and
+            export to CSV) to compare drawdown times from highest Equity or highest Balance.</i></p>
+
+        <p><small>If a DD greater than the DD Threshold value occurs within the Time Distance in multiple files, it will
+            populate a table below showing what times/date and which files. Eg, if the Time Distance is 60 minutes, it
+            will look for a DD over the threshold within any 60 minute period. You can also enter a Global DD to see how
+            many times the total DD over multiple files exceeds a defined value. A Group is 2 or more files that exceed
+            the DD Threshold within the Time Distance, grouped together to easily see when set files hit DD
+            together.</small></p>-->
+      <div class="headingFull">
+        <h3>GANANCIAS/PÉRDIDAS POR MES/AÑO</h3>
+      </div>
+      <div id="profitTableContainer"></div><br>
+      <div class="headingFull">
+        <h3>
+SUPERPOSICIÓN DE DRAWDOWN</h3>
+      </div>
+      <form style="line-height: 1.0;">
+
+        <div style="display: flex; justify-content: flex-start;">
+          <div style="margin-right: 2em;">
+            <label for="drop_threshold">DD Grupal Máximo $:</label>
+            <div class="tooltip">
+              <i class="fas fa-question-circle"></i>
+
+              <span class="tooltiptext">El umbral de DD de Grupo filtrará la tabla de resultados para mostrar solo los grupos de drawdowns cuyo 'DD Global de Grupo' total sea superior al filtro. Un valor de filtro de 1,000 mostrará todos los grupos con un drawdown total superior a 1,000.</span>
+            </div>
+            <input id="drop_threshold" type="number" min="0" value="1000">
+
+          </div>
+
+          <div style="margin-right: 2em;">
+            <label for="time_distance">Distancia Temporal (minutos):</label>
+            <div class="tooltip">
+              <i class="fas fa-question-circle"></i>
+
+              <span class="tooltiptext">La Distancia Temporal es el número de minutos dentro del cual queremos encontrar un Drawdown superior al Umbral de DD en múltiples conjuntos. Si se establece en 30, agrupará todos los valores de drawdown 'pico' dentro de un período de 30 minutos en un solo grupo, para que podamos ver el drawdown total superpuesto.</span>
+            </div>
+            <input id="time_distance" type="number" min="0" max="240" value="30">
+
+          </div>
+
+          <div style="margin-right: 2em;">
+  <label for=" global_dd">
+Umbral de EP Global $: </label>
+            <div class="tooltip">
+              <i class="fas fa-question-circle"></i>
+
+              <span class="tooltiptext">El Umbral de EP Global resaltará en Rojo todas las instancias en las que el DD Global del Grupo exceda este valor; piénsalo como un indicador de incidencias en el EP Global.</span>
+            </div>
+            <input id="global_dd" type="number" min="0" value="4000">
+
+          </div>
+          <!-- <label for="csv_files">CSV Files (only works with 2 or more files):</label>
+  <input id="csv_files" type="file" multiple>-->
+          <div style="margin-right: 2em">
+            <label for=" measure_type">Tipo de Medida: </label>
+            <div class="tooltip">
+              <i class="fas fa-question-circle"></i>
+
+              <span class="tooltiptext"><strong>Equidad</strong> 
+calculará el Drawdown de Equidad a partir del valor más alto de Equidad anterior.<strong>Balance</strong>strong>
+                calculará el Drawdown de Equidad a partir del valor más alto de Balance anterior. <strong>Mayor</strong>strong> 
+calculará el Drawdown de Equidad a partir del mayor valor entre el Balance anterior o la Equidad anterior.
+              </span>
+            </div>
+            <select id="measure_type">
+              <option value="greater">Mayor</option>
+              <option value="balance">Balance</option>
+              <option value="equity">Equidad</option>
+            </select>
+          </div>
+        </div>
+
+
+
+        <div style="display: flex; justify-content: space-between; width: 70%; margin: 2em;">
+          <button type="button" id="ddanal" onclick="performAnalysis()">ACTUALIZAR</button>
+          <button type="button" id="showgraph">MOSTRAR GRÁFICOS</button>
+          <div id="ddStats">
+            <p id="maxGroupSum">Maximo DD Global del Grupo: </p>
+            <p id="countElementId">Global EP Excedido:</p>
+          </div>
+        </div>
+        <div id="graph">
+          <div style="display: flex; width:100%; justify-content:space-between; height:20px;">
+            <div>Haz clic y arrastra en el gráfico para hacer zoom. </div>
+            <div>
+              <label for="toggleBalance">Mostrar Balance:</label>
+              <label class="switch">
+                <input type="checkbox" id="toggleBalance">
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <div>
+              <button id="resetZoomBtn">Resetear Zoom</button>
+              <button id="fullscreenBtn">Fullscreen</button>
+            </div>
+          </div>
+          <canvas id="myChart"></canvas>
+        </div>
+
+      </form>
+
+      <table id="results_table">
+        <!-- Table results will go here -->
+      </table>
+
+    </div>
+  </div>
+  </div>
+  <div id="blur-overlay" class="bluroverlay">
+    <div style="width: 10%; text-align: center;margin-top: 25px;">CERRAR</div>
+  </div>
+  <div id="analysisOverlay2" class="overlay">
+
+
+    <div style="margin-inline: 15px;">
+      <h2 style="text-transform: uppercase;">ANÁLISIS DE PORTAFOLIO</h2>
+      <!--<small class="sectionNotes"><i>Based on Brycey's "Portfolio &
+          DD Peaks" sheet.</i></small>
+      <div style="margin-inline: 1em;">
+        <p class="sectionNotes"><i>Upload CSV files from the MT5 Graph (run the single test with forward OFF > right-click the Graph and
+            export to CSV) to compare drawdown times from highest Equity or highest Balance.</i></p>
+
+        <p><small>If a DD greater than the DD Threshold value occurs within the Time Distance in multiple files, it will
+            populate a table below showing what times/date and which files. Eg, if the Time Distance is 60 minutes, it
+            will look for a DD over the threshold within any 60 minute period. You can also enter a Global DD to see how
+            many times the total DD over multiple files exceeds a defined value. A Group is 2 or more files that exceed
+            the DD Threshold within the Time Distance, grouped together to easily see when set files hit DD
+            together.</small></p>-->
+
+      <form style="line-height: 1.0;">
+        <div>
+          <!-- <label for="csv_files_2">CSV Graph Data*:</label>
+          <input id="csv_files_2" type="file" accept=".csv" multiple>-->
+          Utiliza este botón para subir tus datos de gráficos CSV a la herramienta de Análisis de Portafolio. <br>
+          <div class="upload-container">
+            <label for="csv_files_2" class="custom-file-upload-button">ARCHIVOS CSV</label>
+            <input id="csv_files_2" type="file" accept=".csv" multiple hidden>
+            <p id="file-list" class="sectionNotesFull"></p><br>
+          </div>
+
+
+          <div class="sectionNotesFull">Haz clic en Actualizar a continuación para ver los resultados.</div>
+        </div><br>
+        <div class="headingFull">
+          <h3>GANANCIAS/PÉRDIDAS POR MES/AÑO</h3>
+        </div>
+        <div id="profitTableContainer2"></div><br>
+        <table id="drawdown_table"></table><br>
+        <div class="headingFull">
+          <h3>SUPERPOSICIÓN DE DRAWDOWN</h3>
+        </div>
+        <div style="display: flex; justify-content: flex-start; margin-bottom: 10px;">
+          <div style="margin-right: 2em;">
+            <label for="drop_threshold_2">Umbral de DD de Grupo $:</label>
+            <div class="tooltip">
+              <i class="fas fa-question-circle"></i>
+
+              <span class="tooltiptext">El umbral de DD de Grupo filtrará la tabla de resultados para mostrar solo grupos de drawdowns con un 'DD Global de Grupo' total por encima del filtro. Un valor de filtro de 1,000 mostrará todos los grupos con un drawdown total superior a 1,000.</span>
+            </div>
+            <input id="drop_threshold_2" type="number" min="0" value="1000">
+
+          </div>
+
+
+          <div style="margin-right: 2em;">
+
+            <label for="time_distance_2">Distancia Temporal (minutos):</label>
+            <div class="tooltip">
+              <i class="fas fa-question-circle"></i>
+
+              <span class="tooltiptext">La Distancia Temporal es el número de minutos dentro del cual queremos encontrar un Drawdown superior al Umbral de DD en múltiples conjuntos. Si se establece en 30, agrupará todos los valores de drawdown 'pico' dentro de un período de 30 minutos en un solo grupo, para que podamos ver el drawdown total superpuesto.</span>
+            </div>
+            <input id="time_distance_2" type="number" min="0" max="240" value="30">
+
+          </div>
+
+          <div style="margin-right: 2em;">
+            <label for="global_dd_2">Umbral de EP Global $: </label>
+            <div class="tooltip">
+              <i class="fas fa-question-circle"></i>
+
+              <span class="tooltiptext">
+El Umbral de EP Global resaltará en Rojo todas las instancias en las que el DD Global del Grupo exceda este valor - considéralo como un indicador de incidencias en el EP Global.</span>
+            </div>
+            <input id="global_dd_2" type="number" min="0" value="4000">
+
+          </div>
+          <div style="margin-right: 2em;">
+            <label for="measure_type_2">Tipo de Medida: </label>
+            <div class="tooltip">
+              <i class="fas fa-question-circle"></i>
+
+              <span class="tooltiptext"><strong>Equidad</strong> calculará el Drawdown de Equidad a partir del valor más alto de Equidad anterior. <strong>Balance</strong>
+                
+calculará el Drawdown de Equidad a partir del valor más alto de Balance anterior.<strong>Mayor</strong> 
+calculará el Drawdown de Equidad a partir del mayor valor entre el Balance anterior o la Equidad anterior.</span>
+            </div>
+
+            <select id="measure_type_2">
+              <option value="greater">Mayor</option>
+              <option value="balance">Balance</option>
+              <option value="equity">Equidad</option>
+            </select>
+          </div>
+
+
+        </div>
+
+
+        <div style="display: flex; justify-content: space-between; width: 70%; margin: 2em;">
+
+          <div style="display: flex; justify-content : space-between; width: 50%; margin: 0.15em; line-height: 2.0;">
+            <button type="button" id="ddanal_2" onclick="performAnalysis_2()">ACTUALIZAR</button>
+            <button type="button" id="showgraph_2">VER GRÁFICO</button>
+          </div>
+          <div id="ddStats2">
+            <p id="maxGroupSum_2">Maximo DD Global del Grupo: </p>
+            <p id="countElementId2">Global EP Excedido:</p>
+          </div>
+        </div>
+        <div id="graph_2">
+          <div style="display: flex; width:100%; justify-content:space-between; height:20px; ">
+            <div>Haz clic y arrastra en el gráfico para hacer zoom. </div>
+            <div>
+              <label for="balanceCheckbox_2">Mostrar Balance</label>
+              <label class="switch">
+                <input type="checkbox" id="balanceCheckbox_2">
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div>
+              <button id="resetZoomBtn_2">Resetear Zoom</button>
+              <button id="fullscreenBtn_2">Pantalla Completa</button>
+            </div>
+          </div>
+          <canvas id="myChart_2"></canvas>
+        </div>
+      </form>
+      <div style="margin-inline: 1em;">
+        <table id="results_table_2">
+          <!-- Table results will go here -->
+        </table>
+      </div>
+    </div>
+    <!-- <script src="script.js"></script>-->
+  </div>
+  <div id="blur-overlay2" class="bluroverlay">
+    <div style="width: 10%; text-align: center;margin-top: 25px;">CERRAR</div>
+  </div>
+
+  <div id="toast" class="toast">Some message here</div>
+
+  <div id="popupOverlay">
+    <div id="popupDates"><button id="closeButton" style="float: right;">CERRAR</button><br>
+      <div class="headingFull">
+        <h3>DATE FIND</h3>
+      </div>
+      <div class="sectionNotesFull" style="margin-left: 5px;">
+        <p>Selecciona semanas o meses. Ingresa la duración del período. Introduce tu fecha de finalización. Las fechas de inicio y de forward se rellenarán automáticamente.</p>
+      </div>
+      <div>
+        <label>
+          Semana/Mes:
+          <select id="weekOrMonth">
+            <option value="week" selected>Semana</option>
+            <option value="month">Mes</option>
+          </select>
+        </label>
+
+        <label>
+          Duración Back:
+          <input id="backLength" type="number" value="8">
+        </label>
+
+        <label>
+          Duración Forward:
+          <input id="forwardLength" type="number" value="2">
+        </label>
+      </div>
+      <br>
+      <div id="dateRow">
+        <label>
+          Fecha de Inicio:
+          <input id="startDate" type="date" readonly>
+        </label>
+
+        <label>
+          Fecha de Fin:
+          <input id="endDate" type="date">
+        </label>
+
+        <label>
+          Fecha de Forward:
+          <input id="forwardDate" type="date" readonly>
+        </label>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="popupOverlay2">
+    <div id="popupConverter">
+      <button id="closeButton2" style="float: right;">CERRAR</button>
+
+      <div id="title">
+        <h1>xml>set<span style="color:#00FF00">Convertertidor</span></h1>
+      </div>
+      <div class="headingFull">
+        <h3>CARGAR ARCHIVOS</h3>
+      </div>
+
+      <div id="stepsContainer">
+        <p>Utiliza esta herramienta para convertir automáticamente tu exportación de optimización .xml en archivos .set para cada paso de la optimización. Simplemente selecciona un archivo .xml de los que has subido al SetFinder, sube el archivo .set 'base' utilizado para la optimización (consejo: incluye tu clave API, comentario y descripción de la estrategia para no tener que introducirlos manualmente en cada .set exportado) y haz clic en CONVERTIR. Luego, descarga los archivos .set a continuación, que estarán convenientemente nombrados. Una vez que el cuadro de resultados de abajo esté poblado, puedes seleccionar otra optimización (y/o archivo .set) y hacer clic en CONVERTIR nuevamente: todo se añadirá al cuadro de resultados y se podrá descargar junto en un archivo .zip. Para eliminar todos los archivos y vaciar el cuadro de resultados, haz clic en ELIMINAR TODO.</p>
+        <ol class="steps">
+          <li>
+            <div class="step-text">Selecciona un archivo .xml de optimización que hayas subido al SetFinder (ya sea de Forward o de Back, no importa cuál).</div>
+            <div class="file-upload-container">
+              <select id="xmlFile">
+                <!--dynamically populated-->
+              </select>
+              <br><br>
+            </div>
+          </li>
+          <li>
+            <div class="step-text">Luego selecciona el archivo .set 'base' que se utilizó para la optimización.</div>
+            <div class="file-upload-container2">
+              <input type="file" id="setFile" accept=".set">
+              <label for="setFile" class="file-upload-btn">SELECCIONAR .SET</label>
+              <p id="setFileName" class="file-name-display"></p>
+            </div>
+          </li>
+
+          <li>
+            <div class="step-text">Haz clic en CONVERTIR y se generará el archivo .set para cada número de paso, lo cual se reflejará en el nombre del archivo ("nombre del archivo xml_Número de paso.set"). Si marcas 'Aplicar Multiplicador', se aplicará el Multiplicador de Lote de la tabla SetFinder, si existe uno para ese Número de Paso.</div>
+            <div class="file-upload-container2">
+              <button id="convert">Convertir</button>
+              <div class="file-upload-container3">
+
+                <label for="applyMultiplier"> Aplicar Multiplicador</label> <!-- this is the label --> <input type="checkbox"
+                  id="applyMultiplier" name="applyMultiplier" checked>
+                <label for="applyMultiplier" class="checkmark"></label> <!-- this is the custom checkbox -->
+
+              </div>
+            </div>
+          </li>
+        </ol>
+      </div>
+      <div class="headingFull">
+        <h3>DESCARGA SETS</h3>
+      </div>
+
+      <div id="resultsContainer">
+        <p>Descarga el archivo .set individual haciendo clic en el enlace en el cuadro de resultados. O, descarga TODOS en un archivo .zip, o filtra la lista a continuación y descarga solo los archivos .set filtrados en un .zip. Ten en cuenta que la búsqueda del filtro de Pasada es específica; por ejemplo, buscar "1" devolverá solo el Número de Pasada 1 (en lugar de todos los números de pasada que incluyen el 1, como: 1, 10, 11, 12, 31, 981, etc.), pero el filtro de Optimización buscará cualquier parte del nombre; por ejemplo, buscar "JPY" devolverá tanto USDJPY como CADJPY. El botón [+] añadirá todos los Números de Pasada seleccionados de la tabla.</p>
+        <div id="downloadAllContainer">
+
+          <button id="downloadAll">Guardar todos</button>
+          <button id="downloadAllFiltered">Guardar Filtrados</button>
+          <button id="clearAll">Borrar Todo</button>
+          
+        </div>
+
+        <div id="inputContainer">
+          <label for="filter">Filtrar por numero de pase: </label><button id="addPassNum">+</button>
+          <input type="text" id="filter" placeholder="Filtra múltiples números de pasada utilizando una coma (,): 123, 456, 789...">
+
+        </div>
+        <div id="inputContainer2">
+          <label for="filter2">Filtrar por nombre de Optimizacion: </label>
+          <input type="text" id="filter2" placeholder="Filtra múltiples optimizaciones utilizando una coma (,): GU, Range...">
+
+        </div>
+
+        <div id="results"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="popupOverlay3">
+
+    <div id="SetEditor">
+      <button id="closeButton3" style="float: right;">CERRAR</button><br>
+
+      <h1>Set<span style="color:#00FF00">Editor</span></h1>
+
+      <div class="headingFull">
+      </div>
+
+      <label for="uploadSetButton" id="setFilesLabel" class="file-upload-button">CARGAR SET(S)</label>
+      <input type="file" id="uploadSetButton" name="uploadSetButton" multiple accept=".set"
+        style="display: none;"><button id="exportSetButton">GUARDAR SET(S)</button>
+      <p class="sectionNotesFull">Edita cualquier celda en la tabla de abajo (por ejemplo, Nombre de archivo, NÚMERO MÁGICO, Comentario, Descripción de Estrategia, etc.) y haz clic en EXPORTAR para descargar todos los archivos en un archivo .zip. Los NÚMEROS MÁGICOS duplicados se resaltarán en rojo.</p>
+
+      <label for="sameColor" hidden>&nbsp;&nbsp;Color para valores identicos:</label>
+      <input type="color" id="sameColor" value="#a30a0a" hidden><br>
+      <label for="similarityPercentage" hidden>Porcentaje de similitud: </label>
+      <input type="number" id="similarityPercentage" min="0" max="100" value="10" hidden><label for="similarColor"
+        hidden>&nbsp;&nbsp;Color para valores similares:</label>
+      <input type="color" id="similarColor" value="#c24004" hidden>
+
+      <i><small hidden>Los valores idénticos entre conjuntos se resaltarán en (por defecto, Rojo); los valores similares, definidos por el Porcentaje de Similitud, se resaltarán en (por defecto, Naranja).</small></i>
+
+      <label for="excludedParameters" hidden>Parámetros a excluir de la comparación de resaltado de color (separados por comas, copia los nombres de la tabla de abajo):</label>
+      <input type="text" id="excludedParameters"
+        value="[Tester],Expert,Symbol,Period,Optimization,Model,FromDate,ToDate,ForwardMode,Deposit,Currency,ProfitInPips,Leverage,ExecutionMode,OptimizationCriterion,Visual,[TesterInputs],AllowNewSequence,StrategyDescription,ColorScheme,TradeComment,UseRandomEntryDelay,apiKey,MaxLots,CloseAllTradesDisableEA,DayToClose,DayToRestart,CustomTradingTimes,TimeToStartTading,TimeToStopTrading,AtEndOfSessionAction,MaxLossDailyInCurrency,RestartEaAfterLoss,RestartInHours,ProfitCloseEquityAmount,UltimateTargetBalance,UseAcceleratedRecovery,InitialLotSize,InitialMaxLoss,EpExponent,UseHighImpactNewsFilter,NewsAction"
+        style="width: 66%" hidden>
+      <input type="text" id="includedParameters" value="MAGIC_NUMBER" style="width: 66%" hidden>
+
+
+      <div class="table-container"></div>
+    </div>
+
+  </div>
+</body>
+
+<!-- <script src="ddscript.js"></script>-->
+<script src="/static/js/portfolio/script.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+
+
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
